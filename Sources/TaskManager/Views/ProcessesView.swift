@@ -333,10 +333,12 @@ struct ProcessesView: View {
     /// Finder's Get Info window has no public API, so ask Finder for it directly.
     private func showProperties(_ path: String) {
         guard !path.isEmpty else { return }
+        let escaped = path.replacingOccurrences(of: "\\", with: "\\\\")
+            .replacingOccurrences(of: "\"", with: "\\\"")
         let script = """
         tell application "Finder"
             activate
-            open information window of (POSIX file "\(path)" as alias)
+            open information window of (POSIX file "\(escaped)" as alias)
         end tell
         """
         let process = Process()
