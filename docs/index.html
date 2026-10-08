@@ -234,7 +234,7 @@ footer p { margin: 6px 0; }
 
     <details>
       <summary>Why does it ask for my password?</summary>
-      <p>Only if you want it to. macOS hides CPU for processes you do not own — about one in five, including <code>WindowServer</code> and <code>kernel_task</code>. A 150-line helper reads those stats, and installing it setuid-root takes your password once. It answers exactly two questions and never runs a command. It is the same mechanism <code>/bin/ps</code> has used for decades. Decline it and everything else still works.</p>
+      <p>Only when you change something system-wide: running a new task with administrative privileges, starting or stopping a system daemon, or enabling or disabling a startup agent under <code>/Library</code>. macOS asks each time, and the app installs nothing privileged. Processes you do not own — about one in five, including <code>WindowServer</code> and <code>kernel_task</code> — show as idle, because macOS hides their stats from apps without root.</p>
     </details>
 
     <details>
