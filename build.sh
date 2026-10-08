@@ -29,6 +29,14 @@ archs() { [ ${#ARCHS[@]} -eq 0 ] || printf '%s\n' "${ARCHS[@]}"; }
 swift build -c "$CONFIG" --package-path "$ROOT" $(archs)
 BIN="$(swift build -c "$CONFIG" --package-path "$ROOT" $(archs) --show-bin-path)"
 
+# Icon.icns is generated, not committed (see .gitignore), so a fresh clone renders it.
+if [ ! -f "$ROOT/Resources/Icon.icns" ]; then
+    ICONSET="$(mktemp -d)/Icon.iconset"
+    trap 'rm -rf "$(dirname "$ICONSET")"' EXIT
+    swift "$ROOT/Tools/make-icon.swift" "$ICONSET"
+    iconutil -c icns "$ICONSET" -o "$ROOT/Resources/Icon.icns"
+fi
+
 rm -rf "$APP"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp "$BIN/TaskManager" "$APP/Contents/MacOS/TaskManager"

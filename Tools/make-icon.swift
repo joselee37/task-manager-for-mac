@@ -1,5 +1,5 @@
 // Renders Icon.icns from code — Xcode asset catalogs are not available to SwiftPM here.
-// Run via Tools/make-icon.sh; it feeds the PNGs to iconutil.
+// build.sh runs this when Resources/Icon.icns is missing and feeds the PNGs to iconutil.
 //
 // The mark: a Fluent-blue rounded square carrying the Task Manager pulse graph —
 // a filled area chart with the grid lattice the Performance tab draws, so the icon
