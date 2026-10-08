@@ -16,40 +16,13 @@ Whole-GPU utilisation **is** real, read from each accelerator's `PerformanceStat
 in the IORegistry, and the Performance tab's GPU graph is live. Only the per-row column
 in Processes stays at 0.
 
-## System processes need a one-time password
+## System processes show as idle
 
 Unprivileged `proc_pidinfo` returns nothing for processes you don't own. On a typical Mac
 that hides roughly **120 of ~620 processes**, including `WindowServer` and `kernel_task`.
 
-The app ships a small helper, `tmhelper`, **unprivileged**, and offers to install it
-setuid-root behind a single macOS authorisation prompt.
-
-**You can decline.** Everything else works; those processes just report as idle.
-
-### What the helper actually does
-
-About 150 lines. Installed at `/Library/Application Support/TaskManager/tmhelper`,
-owned `root:wheel`, mode `4755`.
-
-It answers exactly two questions:
-
-- `SAMPLE` — dump CPU/memory/disk/fd counts for every pid
-- `KILL <pid> <TERM|KILL|STOP|CONT>` — signal one process
-
-It never execs anything. It never interprets a path. It rejects any signal outside that
-list, and it refuses to run at all unless the calling user is an admin — so the setuid
-bit alone doesn't let a standard user on a shared Mac touch root processes.
-
-This is the same mechanism `/bin/ps` and `/usr/bin/top` have used for decades. Check:
-
-```
-$ ls -l /bin/ps
--rwsr-xr-x  1 root  wheel  /bin/ps
-     ↑ that 's' is setuid
-```
-
-Install once. The setuid bit lives on disk, so it survives reboots and app updates. You
-are never asked again.
+Those processes are still listed, but their CPU, memory and disk read 0, and ending them
+fails. Reading them takes root, and the app installs nothing privileged to get it.
 
 ## Startup impact says "Not measured"
 

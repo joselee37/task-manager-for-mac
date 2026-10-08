@@ -170,24 +170,9 @@ footer p { margin: 6px 0; }
   </section>
 
   <section id="system-processes">
-    <h2>System processes need a one-time password</h2>
+    <h2>System processes show as idle</h2>
     <p>Unprivileged <code>proc_pidinfo</code> returns nothing for processes you don't own. On a typical Mac that hides roughly <strong>120 of ~620 processes</strong>, including <code>WindowServer</code> and <code>kernel_task</code>.</p>
-    <p>The app ships a small helper, <code>tmhelper</code>, <strong>unprivileged</strong>, and offers to install it setuid-root behind a single macOS authorisation prompt.</p>
-    <p><strong>You can decline.</strong> Everything else works; those processes just report as idle.</p>
-
-    <h3>What the helper actually does</h3>
-    <p>About 150 lines. Installed at <code>/Library/Application Support/TaskManager/tmhelper</code>, owned <code>root:wheel</code>, mode <code>4755</code>.</p>
-    <p>It answers exactly two questions:</p>
-    <ul class="plain">
-      <li><code>SAMPLE</code> — dump CPU/memory/disk/fd counts for every pid</li>
-      <li><code>KILL &lt;pid&gt; &lt;TERM|KILL|STOP|CONT&gt;</code> — signal one process</li>
-    </ul>
-    <p>It never execs anything. It never interprets a path. It rejects any signal outside that list, and it refuses to run at all unless the calling user is an admin — so the setuid bit alone doesn't let a standard user on a shared Mac touch root processes.</p>
-    <p>This is the same mechanism <code>/bin/ps</code> and <code>/usr/bin/top</code> have used for decades. Check:</p>
-<pre><code>$ ls -l /bin/ps
--rwsr-xr-x  1 root  wheel  /bin/ps
-     ↑ that 's' is setuid</code></pre>
-    <p>Install once. The setuid bit lives on disk, so it survives reboots and app updates. You are never asked again.</p>
+    <p>Those processes are still listed, but their CPU, memory and disk read 0, and ending them fails. Reading them takes root, and the app installs nothing privileged to get it.</p>
   </section>
 
   <section id="startup-impact">

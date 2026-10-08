@@ -9,7 +9,6 @@ looks wrong, include:
 
 - Your Mac's chip (Apple Silicon or Intel) and macOS version
 - What **Activity Monitor** says for the same process
-- Whether the privileged helper is installed (Settings shows this)
 
 That comparison has already caught real bugs — including one where every process
 reported 41× too little CPU on Apple Silicon and looked entirely plausible while
@@ -57,15 +56,10 @@ never hardcode a hex. Comments explain constraints, not mechanics.
 |:--|:--|:--|
 | **PATCH** — `1.0.1` | A bug fix that changes no behaviour anyone relied on | A CPU figure was wrong; now it's right |
 | **MINOR** — `1.1.0` | A new capability, backwards compatible | A new column; a new context-menu action |
-| **MAJOR** — `2.0.0` | A break in something users depend on | Settings reset; the helper protocol changes incompatibly |
+| **MAJOR** — `2.0.0` | A break in something users depend on | Settings reset |
 
-Two extra rules specific to this project:
+One extra rule specific to this project:
 
-- **`tmhelper` has its own version** (`helperVersion` in `Sources/tmhelper/main.swift`).
-  Bump it whenever the wire protocol changes. The app checks it on connect and refuses a
-  mismatched helper, so a stale setuid binary can never be spoken to with the wrong
-  protocol. Bumping it forces users through the install prompt again — do not bump it
-  casually.
 - **The app version lives in `Resources/Info.plist`** (`CFBundleShortVersionString` and
   `CFBundleVersion`). Both must be updated, and the release tag must match:
   `Info.plist` says `1.2.0` → tag is `v1.2.0`.

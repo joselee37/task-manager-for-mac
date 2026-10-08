@@ -35,10 +35,6 @@ cp "$BIN/TaskManager" "$APP/Contents/MacOS/TaskManager"
 cp "$ROOT/Resources/Info.plist" "$APP/Contents/Info.plist"
 cp "$ROOT/Resources/Icon.icns" "$APP/Contents/Resources/Icon.icns"
 
-# Shipped unprivileged. The app installs it setuid-root on demand, behind one
-# authorisation prompt — see PrivilegedHelper.install().
-cp "$BIN/tmhelper" "$APP/Contents/Resources/tmhelper"
-
 # Ad-hoc signing so the Apple Events prompt (Startup apps tab) has a stable identity
 # to attach the TCC grant to. Without it macOS re-prompts on every launch.
 codesign --force --deep --sign - "$APP"

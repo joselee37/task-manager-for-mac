@@ -60,7 +60,7 @@ macOS won't let *any* app read these, so instead of showing you a made-up number
 - **Startup impact** — macOS never measures it
 - **Set affinity** — no such control on macOS
 
-There's also a **one-time password prompt** if you want to see system processes like `WindowServer`. You can say no and everything else still works.
+System processes like `WindowServer` show as idle, too: macOS only lets an app read stats for processes you own.
 
 [Read the full honest list →](docs/limitations.md)
 
